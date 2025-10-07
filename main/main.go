@@ -23,6 +23,7 @@ var gormDB *gorm.DB
 
 func InitDB() {
 	var err error
+	//так хардкодить нельзя. Лучше вывести в конфиги и читать через условный envViper
 	connection := "user=postgres password=1234 dbname=goDB host=db port=5432 sslmode=disable"
 	gormDB, err = gorm.Open(postgres.Open(connection), &gorm.Config{})
 	if err != nil {
@@ -48,7 +49,9 @@ func CloseDB() {
 	}
 }
 
+// название метода лучше называть migrateUp что явно указывает что ты поднимаешь миграцию
 func makeMigration() {
+	//так хардкодить нельзя. Лучше вывести в конфиги и читать через условный envViper
 	dsn := "postgres://postgres:1234@db:5432/goDB?sslmode=disable"
 	m, err := migrate.New("file:///app/db/migrations", dsn)
 	if err != nil {
@@ -56,7 +59,10 @@ func makeMigration() {
 	}
 	m.Up()
 }
+
+// название метода лучше называть migrateDown что явно указывает что ты поднимаешь миграцию
 func backMigration() {
+	//так хардкодить нельзя. Лучше вывести в конфиги и читать через условный envViper
 	dsn := "postgres://postgres:1234@localhost:5432/gorillaFirstProjDB?sslmode=disable"
 	m, err := migrate.New("file:///app/db/migrations", dsn)
 	if err != nil {
@@ -109,7 +115,8 @@ func main() {
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/customers", customerHandler.HandleCustomerGet).Methods("GET")
+	router.HandleFunc("/customers", customerHandler.HandleCustomerGet).Methods(http.MethodGet)
+	//для описания (POST,GET и тд) лучше использовать константы из пакета http как пример выше
 	router.HandleFunc("/customers", customerHandler.HandleCustomerPost).Methods("POST")
 	router.HandleFunc("/customers", customerHandler.HandleCustomerPut).Methods("PUT")
 	router.HandleFunc("/customers", customerHandler.HandleCustomerDelete).Methods("DELETE")

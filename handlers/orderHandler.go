@@ -25,6 +25,11 @@ func NewOrderHandler(orderServices services.OrderService) OrderHandler {
 }
 
 func (handler *orderHandler) HandleOrderGet(w http.ResponseWriter, r *http.Request) {
+	//так делать нельзя, ибо ты теряешь идемпотентность сервиса
+	//отправил айди, получил 1 запись, не отправил, получил массив
+	//это плохая практика. Лучше явно создать 2 эндпойнта
+	// .../orders [get]
+	// .../order?order_id=123 [get]
 	var idStr string = r.URL.Query().Get("id")
 	if idStr == "" {
 		err := json.NewEncoder(w).Encode(handler.orderServices.GetAllOrders())

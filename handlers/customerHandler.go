@@ -33,6 +33,9 @@ func (handler customerHandler) HandleCustomerGet(w http.ResponseWriter, r *http.
 		if err != nil {
 			log.Fatal("Error getting customers from database", err)
 		} else if idStr != "" && nameStr == "" {
+			//1 тут else if не нужен
+			//2 idStr != "" && nameStr == "" никогда не выполнится, ибо стоит выше условие idStr == "" || nameStr == ""
+			//
 			id, err := strconv.Atoi(idStr)
 			if err != nil {
 				log.Fatal("Error getting customers from database", err)
@@ -51,11 +54,17 @@ func (handler customerHandler) HandleCustomerGet(w http.ResponseWriter, r *http.
 }
 
 func (handler customerHandler) HandleCustomerPost(w http.ResponseWriter, r *http.Request) {
+	//вообще предлагается создать отдельные структуры для createCustomer, updateCustomer и тд
 	var customer entities.Customer
 	err := json.NewDecoder(r.Body).Decode(&customer)
 	if err != nil {
 		log.Fatal("Error getting customers from database", err)
 	}
+	err = customer.Validate()
+	if err != nil {
+		log.Fatal("create customer required params is empty", err)
+	}
+
 	handler.customerService.AddCustomer(customer)
 }
 
