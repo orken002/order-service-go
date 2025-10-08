@@ -17,12 +17,17 @@ type orderService struct {
 	orderRepository repository.OrderRepository
 }
 
-func NewOrderServices (orderRepository repository.OrderRepository) OrderService {
+func NewOrderServices(orderRepository repository.OrderRepository) OrderService {
 	return &orderService{orderRepository: orderRepository}
 }
 
 func (orderService *orderService) AddOrder(order entities.Order) {
+	//названия каждой репозиторйи можешь просто сделать
+	//Create, GetByID, GetMany, Update, Delete и тд
+	//как должно быть: orderService.orderRepository.Create(order)
+	//нет смысла orderRepository.CraeteOrder писать, так как ясно что orderRepo создаст только order и ничего более
 	orderService.orderRepository.AddOrder(order)
+
 }
 
 func (orderService *orderService) UpdateOrder(order entities.Order) {

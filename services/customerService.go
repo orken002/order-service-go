@@ -29,6 +29,7 @@ func NewCustomerService(customerRepository repository.CustomerRepository) Custom
 func (customerService *customerService) AddCustomer(customer entities.Customer) {
 	if customer.Name == "" || customer.Email == "" || customer.Phone == "" {
 		log.Fatal("Customer name and email are required to add a customer")
+		//для такой хуйни лучше добавить validate метод для самой структуры и проверять это в handler уровне
 	} else {
 		customer.Promocode = uuid.New().String()
 		customerService.customerRepository.AddCustomer(customer)
