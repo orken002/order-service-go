@@ -30,7 +30,7 @@ func (handler *orderHandler) HandleOrderGet(w http.ResponseWriter, r *http.Reque
 	//это плохая практика. Лучше явно создать 2 эндпойнта
 	// .../orders [get]
 	// .../order?order_id=123 [get]
-	var idStr string = r.URL.Query().Get("id")
+	var idStr string = r.PathValue("id")
 	if idStr == "" {
 		err := json.NewEncoder(w).Encode(handler.orderServices.GetAllOrders())
 		if err != nil {

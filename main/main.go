@@ -121,7 +121,7 @@ func main() {
 	router.HandleFunc("/customers", customerHandler.HandleCustomerPut).Methods("PUT")
 	router.HandleFunc("/customers", customerHandler.HandleCustomerDelete).Methods("DELETE")
 
-	router.HandleFunc("/orders", orderHandler.HandleOrderGet).Methods("GET")
+	router.HandleFunc("/orders/{id}", orderHandler.HandleOrderGet).Methods("GET")
 	router.HandleFunc("/orders", orderHandler.HandleOrderPost).Methods("POST")
 	router.HandleFunc("/orders", orderHandler.HandleOrderPut).Methods("PUT")
 	router.HandleFunc("/orders", orderHandler.HandleOrderDelete).Methods("DELETE")
